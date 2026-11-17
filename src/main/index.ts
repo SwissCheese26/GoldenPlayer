@@ -56,6 +56,14 @@ app.whenReady().then(() => {
 
   ipcMain.handle('library:scan', (_event, folderPath: string) => scanLibrary(folderPath))
 
+  ipcMain.on('window:minimize', (event) => {
+    BrowserWindow.fromWebContents(event.sender)?.minimize()
+  })
+
+  ipcMain.on('window:close', (event) => {
+    BrowserWindow.fromWebContents(event.sender)?.close()
+  })
+
   createWindow()
 
   app.on('activate', () => {

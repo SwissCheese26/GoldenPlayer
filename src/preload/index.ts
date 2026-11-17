@@ -6,7 +6,9 @@ const api = {
   scanLibrary: (folderPath: string): Promise<Track[]> =>
     ipcRenderer.invoke('library:scan', folderPath),
   toMediaUrl: (filePath: string): string =>
-    `gp-media://local/${encodeURIComponent(filePath)}`
+    `gp-media://local/${encodeURIComponent(filePath)}`,
+  windowMinimize: (): void => ipcRenderer.send('window:minimize'),
+  windowClose: (): void => ipcRenderer.send('window:close')
 }
 
 if (process.contextIsolated) {
