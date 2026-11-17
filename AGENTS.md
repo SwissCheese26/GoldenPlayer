@@ -124,4 +124,8 @@ der Renderer-Typecheck).
 Manuell noch zu testen (Dialog/Dateisystem laesst sich hier nicht headless
 automatisieren): Ordner-Picker + echte Wiedergabe im laufenden Fenster.
 
+Seit Schritt 1 ergaenzt: Seek-Bar (im Lied springen), Mehrfach-Ordnerauswahl
+(dedupe per Dateipfad, Bibliothek wird ergaenzt statt ersetzt). Vom Nutzer
+getestet und bestaetigt funktionierend.
+
 Naechster Schritt: Schritt 2 (Retro-UI-Shell).
