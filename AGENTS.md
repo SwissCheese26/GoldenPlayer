@@ -114,7 +114,14 @@ Spotify/Apple Music, damit ein Blocker frueh auffliegt.
 
 ## Status
 
-Schritt 0 fertig: Electron + React + TypeScript Scaffold laeuft (`npm run dev`
-startet die App, `npm run typecheck` / `npm run build` gruen). Frameless
-BrowserWindow vorbereitet, eigenes Chrome folgt in Schritt 2.
-Naechster Schritt: Schritt 1 (lokale Wiedergabe).
+Schritt 1 fertig: lokale Wiedergabe funktioniert (Ordner waehlen, rekursiver
+Scan, ID3-Tags inkl. Cover, Play/Pause/Next/Prev, Seek-Anzeige, Volume).
+Audio laeuft ueber eigenes `gp-media://`-Protokoll (kein kompletter Datei-
+Load per IPC). `music-metadata` ist ESM-only -> dynamic import im Main-
+Prozess. TypeScript auf 5.9 gepinnt (7.0 brach `declare global`-Merging in
+der Renderer-Typecheck).
+
+Manuell noch zu testen (Dialog/Dateisystem laesst sich hier nicht headless
+automatisieren): Ordner-Picker + echte Wiedergabe im laufenden Fenster.
+
+Naechster Schritt: Schritt 2 (Retro-UI-Shell).
