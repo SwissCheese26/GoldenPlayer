@@ -1,6 +1,13 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
+import type { Track } from '../main/library'
 
-const api = {}
+const api = {
+  selectMusicFolder: (): Promise<string | null> => ipcRenderer.invoke('library:selectFolder'),
+  scanLibrary: (folderPath: string): Promise<Track[]> =>
+    ipcRenderer.invoke('library:scan', folderPath),
+  toMediaUrl: (filePath: string): string =>
+    `gp-media://local/${encodeURIComponent(filePath)}`
+}
 
 if (process.contextIsolated) {
   try {

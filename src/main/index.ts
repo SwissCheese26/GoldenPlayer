@@ -1,5 +1,14 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, protocol, net, dialog, ipcMain } from 'electron'
 import { join } from 'path'
+import { pathToFileURL } from 'url'
+import { scanLibrary } from './library'
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'gp-media',
+    privileges: { secure: true, supportFetchAPI: true, stream: true, corsEnabled: true }
+  }
+])
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -33,6 +42,18 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
+  protocol.handle('gp-media', (request) => {
+    const filePath = decodeURIComponent(request.url.replace('gp-media://local/', ''))
+    return net.fetch(pathToFileURL(filePath).toString())
+  })
+
+  ipcMain.handle('library:selectFolder', async () => {
+    const result = await dialog.showOpenDialog({ properties: ['openDirectory'] })
+    return result.canceled ? null : result.filePaths[0]
+  })
+
+  ipcMain.handle('library:scan', (_event, folderPath: string) => scanLibrary(folderPath))
+
   createWindow()
 
   app.on('activate', () => {
