@@ -114,5 +114,7 @@ Spotify/Apple Music, damit ein Blocker frueh auffliegt.
 
 ## Status
 
-Scope + Roadmap festgelegt. Naechster Schritt: Schritt 0 (Projekt-Setup)
-umsetzen.
+Schritt 0 fertig: Electron + React + TypeScript Scaffold laeuft (`npm run dev`
+startet die App, `npm run typecheck` / `npm run build` gruen). Frameless
+BrowserWindow vorbereitet, eigenes Chrome folgt in Schritt 2.
+Naechster Schritt: Schritt 1 (lokale Wiedergabe).
