@@ -12,6 +12,7 @@ export function useEqualizer(audioRef: React.RefObject<HTMLAudioElement | null>)
   const [enabled, setEnabled] = useState(true)
   const [bandGainsDb, setBandGainsDb] = useState<number[]>(() => EQ_BANDS_HZ.map(() => 0))
   const [preampDb, setPreampDb] = useState(0)
+  const [graphReady, setGraphReady] = useState(false)
   const graphRef = useRef<EqualizerGraph | null>(null)
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export function useEqualizer(audioRef: React.RefObject<HTMLAudioElement | null>)
     filters[filters.length - 1].connect(audioContext.destination)
 
     graphRef.current = { audioContext, filters, preamp }
+    setGraphReady(true)
   }, [audioRef])
 
   function setBandGain(index: number, db: number): void {
@@ -67,7 +69,16 @@ export function useEqualizer(audioRef: React.RefObject<HTMLAudioElement | null>)
     graph.preamp.gain.value = dbToGain(next ? preampDb : 0)
   }
 
-  return { enabled, bandGainsDb, preampDb, setBandGain, setPreamp, toggleEnabled }
+  return {
+    enabled,
+    bandGainsDb,
+    preampDb,
+    setBandGain,
+    setPreamp,
+    toggleEnabled,
+    audioContext: graphReady ? graphRef.current!.audioContext : null,
+    tapNode: graphReady ? (graphRef.current!.preamp as AudioNode) : null
+  }
 }
 
 function dbToGain(db: number): number {

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Track } from './types'
 import { EQ_BANDS_HZ, useEqualizer } from './useEqualizer'
+import Visualizer from './Visualizer'
 
 function formatTime(seconds: number): string {
   if (!Number.isFinite(seconds)) return '0:00'
@@ -156,6 +157,8 @@ function App() {
           <button className="choose-folder-btn" onClick={handleChooseFolders}>
             Ordner wählen
           </button>
+
+          <Visualizer audioContext={eq.audioContext} tapNode={eq.tapNode} />
         </section>
 
         <section className="panel panel-eq">
