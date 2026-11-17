@@ -141,4 +141,10 @@ keine generische SaaS-Card-Optik).
 Offen/bewusst verschoben: Shade-Mode (Mini-Leiste) — nicht angefragt, kommt
 nur bei Bedarf.
 
-Naechster Schritt: Schritt 3 (Visualizer, Butterchurn/MilkDrop-Port).
+Schritt 3 fertig: Visualizer via Butterchurn (echter MilkDrop-Port) im
+Main-Panel, haengt am bestehenden Web-Audio-Graph (Tap am Preamp, Haupt-
+kette unberuehrt). Klick wechselt Preset. CORS/Tainted-Audio vorab mit
+Testton verifiziert (gp-media:// liefert echte Analyser-Daten).
+
+Naechster Schritt: Schritt 4 (Spotify/Apple-Music-DRM-Spike, Widevine-
+Electron-Build).
