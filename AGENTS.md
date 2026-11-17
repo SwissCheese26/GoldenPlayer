@@ -128,4 +128,17 @@ Seit Schritt 1 ergaenzt: Seek-Bar (im Lied springen), Mehrfach-Ordnerauswahl
 (dedupe per Dateipfad, Bibliothek wird ergaenzt statt ersetzt). Vom Nutzer
 getestet und bestaetigt funktionierend.
 
-Naechster Schritt: Schritt 2 (Retro-UI-Shell).
+Schritt 2 fertig: Retro-UI-Shell (Winamp-Anatomie: Main/EQ/Playlist als
+gedockte Panels, responsive Reihe<->Stapel bei 900px), echter 10-Band-EQ
++ Preamp per Web Audio, eigene Titelleiste (Minimize/Close), VT323/Rajdhani
+lokal gebuendelt. Per Playwright-_electron-Screenshot bei 2200px und 640px
+verifiziert.
+
+Design-Skill genutzt: `frontend-design` fuer Farb-/Typo-/Layout-Entscheidung
+(skeuomorph statt flat, LCD-Gruen als bewusste Anlehnung an WMP/Winamp,
+keine generische SaaS-Card-Optik).
+
+Offen/bewusst verschoben: Shade-Mode (Mini-Leiste) — nicht angefragt, kommt
+nur bei Bedarf.
+
+Naechster Schritt: Schritt 3 (Visualizer, Butterchurn/MilkDrop-Port).
