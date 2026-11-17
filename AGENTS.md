@@ -7,7 +7,8 @@ unabhaengig vom `AGENTS.md` eine Ebene hoeher (das gilt fuer Startup Hub V2).
 
 Musik-Player im 90er/2000er-Stil (Winamp-Ara-Optik). Features:
 
-- Streaming: Apple Music, Spotify, Deezer
+- Streaming: Spotify, Apple Music (Deezer verworfen — nur 30-Sek-Previews ohne
+  Partnerdeal, kein Mehrwert)
 - Lokale Dateien (Audio)
 - Video-Wiedergabe, Aufloesung gedeckelt auf ca. 1200×XXX (kein 4K)
 - Responsive: 34" curved Ultrawide bis kleine Monitore
@@ -45,11 +46,8 @@ eigenes Interface (kein Provider-Widget).
   Unklar/unverifiziert: ob Wiedergabe in Standard-Electron ueberhaupt startet
   (DRM/EME) — ein bekanntes Forum-Beispiel brauchte dafuer ebenfalls einen
   Widevine-Electron-Build. Vor Commitment per Spike pruefen.
-- **Deezer — blockiert fuer Volltrack.** Oeffentliche API/SDK liefert nur
-  30-Sek-Previews. Volle Wiedergabe nur mit direktem kommerziellen Deal mit
-  Deezer. Ohne solchen Deal: Deezer nur als Preview-Snippet einplanen.
-- **YouTube Music / Tidal — nicht empfohlen.** Nur inoffizielle, ToS-riskante
-  APIs, kein garantierter Volltrack-Zugang. Nicht fuer ernsthaftes Produkt.
+- **Deezer, YouTube Music, Tidal — nicht im Scope.** Deezer nur 30-Sek-Preview
+  ohne Partnerdeal, YT Music/Tidal nur inoffizielle ToS-riskante APIs.
 
 **Empfohlene Reihenfolge:** zuerst Electron-Widevine-Grundlage bauen (Blocker
 fuer Spotify + Apple Music gemeinsam) → Spotify Premium-Playback end-to-end
@@ -84,7 +82,37 @@ Ich (Teamleiter) koordiniere bei der Umsetzung:
 - **Tester-Agent**: Funktionstests, Aufloesungs-/Monitor-Checks
 - **QM-Agent**: Code-Review (`code-review` Skill), Konsistenz, Accessibility-Audit
 
+## Roadmap
+
+**Scope final: Spotify + Apple Music + lokale Dateien.** Video-Wiedergabe
+(lokal, gedeckelt ~1200×XXX) ist eigene Spur, nicht an Streaming gekoppelt.
+
+0. **Projekt-Setup** — Electron + React + TypeScript Scaffold (electron-vite),
+   Grundfenster, Ordnerstruktur, Lint/Build-Pipeline.
+1. **Lokale Wiedergabe** — HTML5 Audio/Web Audio API, Dateiauswahl + Bibliothek-
+   Scan, ID3-Metadaten (`music-metadata`), Basis-Transport-UI. Lauffaehiger
+   Kern ohne Streaming-Abhaengigkeit.
+2. **Retro-UI-Shell** — Skinned Chrome (Winamp-Anatomie: Hauptfenster/EQ/
+   Playlist getrennt), Shade-Mode, Responsive-Breakpoints 34" Ultrawide bis
+   klein.
+3. **Visualizer** — Web Audio `AnalyserNode` → Canvas/WebGL; Butterchurn
+   (MilkDrop-Port) fuer die "Alchemy"-Liga einbinden.
+4. **Spotify-Spike** — Widevine-faehiger Electron-Build (castlabs-Fork) als
+   gemeinsame DRM-Grundlage fuer Spotify + Apple Music testen, bevor Feature-
+   Arbeit beginnt.
+5. **Spotify-Integration** — OAuth-Login, Web Playback SDK, eigenes UI steuert
+   Play/Pause/Seek/Skip, Metadaten + Cover.
+6. **Apple Music-Integration** — Dev-Token-Signierung (JWT), MusicKit JS,
+   Music-User-Token-Flow, eigenes UI.
+7. **Skin-System** — Skin-Switcher, 2-3 Beispiel-Skins (u.a. Trance/Floral-
+   Stil als Hommage an Winamp-Skin-Museum).
+8. **Packaging & QM** — `electron-builder` Windows-EXE, Tester-Agent
+   (Monitor-/Aufloesungs-Checks), QM-Agent (`code-review`, Accessibility).
+
+Reihenfolge ist Risiko-first: DRM-Spike (Schritt 4) vor viel UI-Arbeit an
+Spotify/Apple Music, damit ein Blocker frueh auffliegt.
+
 ## Status
 
-Skills + Rollen festgelegt. Naechster Schritt: Projekt im Detail planen
-(Features, Datenmodell, Ordnerstruktur, Scope pro Streaming-Dienst).
+Scope + Roadmap festgelegt. Naechster Schritt: Schritt 0 (Projekt-Setup)
+umsetzen.
