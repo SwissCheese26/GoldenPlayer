@@ -1,0 +1,30 @@
+{
+  "name": "goldenplayer",
+  "version": "0.1.0",
+  "description": "Retro (90er/2000er) Musik-Player: Spotify, Apple Music, lokale Dateien",
+  "main": "./out/main/index.js",
+  "author": "SwissCheese26",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "build:win": "electron-vite build && electron-builder --win"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "^41.7.1",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^3.1.0",
+    "typescript": "^7.0.2",
+    "vite": "^6.4.6"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

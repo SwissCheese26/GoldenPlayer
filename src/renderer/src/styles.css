@@ -1,0 +1,19 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: #0a0014;
+  color: #f0f0f0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 0.5rem;
+}
