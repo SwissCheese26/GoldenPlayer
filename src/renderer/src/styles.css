@@ -36,6 +36,11 @@ body {
   gap: 0.5rem;
 }
 
+.seek-bar {
+  flex: 1;
+  min-width: 0;
+}
+
 .muted {
   color: #999;
   font-size: 0.85rem;

@@ -22,13 +22,17 @@ function App() {
     if (audioRef.current) audioRef.current.volume = volume
   }, [volume])
 
-  async function handleChooseFolder(): Promise<void> {
-    const folder = await window.api.selectMusicFolder()
-    if (!folder) return
-    const found = await window.api.scanLibrary(folder)
-    setTracks(found)
-    setCurrentIndex(null)
-    setIsPlaying(false)
+  async function handleChooseFolders(): Promise<void> {
+    const folders = await window.api.selectMusicFolders()
+    if (folders.length === 0) return
+    const scanned = await Promise.all(folders.map((folder) => window.api.scanLibrary(folder)))
+    const found = scanned.flat()
+
+    setTracks((prev) => {
+      const existingPaths = new Set(prev.map((t) => t.filePath))
+      const merged = [...prev, ...found.filter((t) => !existingPaths.has(t.filePath))]
+      return merged
+    })
   }
 
   function playTrack(index: number): void {
@@ -54,6 +58,12 @@ function App() {
     playTrack((currentIndex - 1 + tracks.length) % tracks.length)
   }
 
+  function handleSeek(seconds: number): void {
+    if (!audioRef.current) return
+    audioRef.current.currentTime = seconds
+    setCurrentTime(seconds)
+  }
+
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
@@ -72,7 +82,7 @@ function App() {
 
       <h1>GoldenPlayer</h1>
 
-      <button onClick={handleChooseFolder}>Ordner wählen</button>
+      <button onClick={handleChooseFolders}>Ordner wählen</button>
 
       <div className="now-playing">
         {currentTrack ? (
@@ -94,9 +104,18 @@ function App() {
         <button onClick={playPrevious}>⏮</button>
         <button onClick={togglePlay}>{isPlaying ? '⏸' : '▶'}</button>
         <button onClick={playNext}>⏭</button>
-        <span className="muted">
-          {formatTime(currentTime)} / {formatTime(currentTrack?.durationSec ?? 0)}
-        </span>
+        <span className="muted">{formatTime(currentTime)}</span>
+        <input
+          className="seek-bar"
+          type="range"
+          min={0}
+          max={currentTrack?.durationSec ?? 0}
+          step={0.1}
+          value={currentTime}
+          disabled={!currentTrack}
+          onChange={(e) => handleSeek(Number(e.target.value))}
+        />
+        <span className="muted">{formatTime(currentTrack?.durationSec ?? 0)}</span>
         <input
           type="range"
           min={0}

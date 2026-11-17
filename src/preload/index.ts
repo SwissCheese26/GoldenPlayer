@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import type { Track } from '../main/library'
 
 const api = {
-  selectMusicFolder: (): Promise<string | null> => ipcRenderer.invoke('library:selectFolder'),
+  selectMusicFolders: (): Promise<string[]> => ipcRenderer.invoke('library:selectFolders'),
   scanLibrary: (folderPath: string): Promise<Track[]> =>
     ipcRenderer.invoke('library:scan', folderPath),
   toMediaUrl: (filePath: string): string =>

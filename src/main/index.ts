@@ -47,9 +47,11 @@ app.whenReady().then(() => {
     return net.fetch(pathToFileURL(filePath).toString())
   })
 
-  ipcMain.handle('library:selectFolder', async () => {
-    const result = await dialog.showOpenDialog({ properties: ['openDirectory'] })
-    return result.canceled ? null : result.filePaths[0]
+  ipcMain.handle('library:selectFolders', async () => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openDirectory', 'multiSelections']
+    })
+    return result.canceled ? [] : result.filePaths
   })
 
   ipcMain.handle('library:scan', (_event, folderPath: string) => scanLibrary(folderPath))

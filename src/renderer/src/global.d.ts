@@ -1,7 +1,7 @@
 import type { Track } from './types'
 
 export interface GoldenPlayerApi {
-  selectMusicFolder: () => Promise<string | null>
+  selectMusicFolders: () => Promise<string[]>
   scanLibrary: (folderPath: string) => Promise<Track[]>
   toMediaUrl: (filePath: string) => string
 }
