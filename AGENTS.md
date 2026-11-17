@@ -146,5 +146,8 @@ Main-Panel, haengt am bestehenden Web-Audio-Graph (Tap am Preamp, Haupt-
 kette unberuehrt). Klick wechselt Preset. CORS/Tainted-Audio vorab mit
 Testton verifiziert (gp-media:// liefert echte Analyser-Daten).
 
+Ergaenzt: Vollbild-Modus fuer den Visualizer (Fullscreen API, Button auf der
+Flaeche), getestet bei 3440x1440 — fuellt den kompletten Bildschirm.
+
 Naechster Schritt: Schritt 4 (Spotify/Apple-Music-DRM-Spike, Widevine-
 Electron-Build).
