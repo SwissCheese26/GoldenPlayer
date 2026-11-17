@@ -19,6 +19,7 @@ function Visualizer({ audioContext, tapNode }: Props) {
   const [presetIndex, setPresetIndex] = useState(() =>
     Math.floor(Math.random() * presetNames.length)
   )
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     if (!audioContext || !tapNode || !canvasRef.current || visualizerRef.current) return
@@ -62,14 +63,34 @@ function Visualizer({ audioContext, tapNode }: Props) {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    const onChange = (): void => setIsFullscreen(document.fullscreenElement === container)
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
+
   function nextPreset(): void {
     setPresetIndex((i) => (i + 1) % presetNames.length)
   }
 
+  function toggleFullscreen(e: React.MouseEvent): void {
+    e.stopPropagation()
+    if (document.fullscreenElement) {
+      document.exitFullscreen()
+    } else {
+      containerRef.current?.requestFullscreen()
+    }
+  }
+
   return (
-    <div className="visualizer" ref={containerRef} onClick={nextPreset}>
+    <div className={`visualizer ${isFullscreen ? 'visualizer-fullscreen' : ''}`} ref={containerRef} onClick={nextPreset}>
       <canvas ref={canvasRef} />
       <span className="visualizer-preset-name">{presetNames[presetIndex]}</span>
+      <button className="chrome-btn visualizer-fullscreen-btn" onClick={toggleFullscreen}>
+        {isFullscreen ? '⤡' : '⤢'}
+      </button>
     </div>
   )
 }

@@ -281,6 +281,26 @@ body {
   pointer-events: none;
 }
 
+.visualizer-fullscreen-btn {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  padding: 0.1rem 0.4rem;
+  opacity: 0.6;
+}
+
+.visualizer-fullscreen-btn:hover {
+  opacity: 1;
+}
+
+.visualizer-fullscreen {
+  background: var(--lcd-bg);
+}
+
+.visualizer-fullscreen .visualizer-preset-name {
+  font-size: 1.4rem;
+}
+
 /* --- Equalizer --- */
 
 .eq-bands {
