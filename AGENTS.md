@@ -149,5 +149,27 @@ Testton verifiziert (gp-media:// liefert echte Analyser-Daten).
 Ergaenzt: Vollbild-Modus fuer den Visualizer (Fullscreen API, Button auf der
 Flaeche), getestet bei 3440x1440 — fuellt den kompletten Bildschirm.
 
-Naechster Schritt: Schritt 4 (Spotify/Apple-Music-DRM-Spike, Widevine-
-Electron-Build).
+Schritt 4 (DRM-Spike) laeuft, Zwischenstand:
+
+- `electron` ersetzt durch castLabs' Widevine-Build
+  (`github:castlabs/electron-releases#v41.7.1+wvcus`, exakt passend zur
+  vorherigen Stock-Version). App laeuft damit weiterhin normal.
+- Ohne Signierung laedt die Widevine-CDM-Komponente nicht
+  (`NotSupportedError: Unsupported keySystem`) — bestaetigt: Widevine-Build
+  allein reicht nicht, VMP-Signierung via `castlabs-evs` noetig.
+- `castlabs-evs` (Python, `pip install --user castlabs-evs`) installiert.
+  Account-Signup aktuell extern blockiert (`LimitExceededException` —
+  Tageslimit auf castLabs' Mailversand, nicht unser Fehler). Spaeter erneut
+  versuchen: `python -m castlabs_evs.account -n signup -E <email> -P <pw>
+  -A goldenplayer -F <Vorname> -L <Nachname> -O GoldenPlayer -N`, danach
+  Bestaetigungscode aus der Mail mit `confirm-signup` eintragen, dann
+  `python -m castlabs_evs.vmp sign-pkg node_modules/electron/dist`.
+- Recherche-Fund (Spotify-Community-Forum): Spotify-Mitarbeiter sagen
+  explizit, die Web Playback SDK sei nicht fuer Electron supported, auch
+  mit funktionierendem Widevine gibt es Berichte von 500-Fehlern am
+  Lizenz-Endpunkt. Das Risiko bleibt bestehen, auch wenn die Signierung
+  klappt.
+
+Naechster Schritt: castlabs-evs-Signup erneut versuchen, dann Widevine-Check
+wiederholen (`navigator.requestMediaKeySystemAccess('com.widevine.alpha',
+...)`), danach erst Spotify Web Playback SDK end-to-end testen.
