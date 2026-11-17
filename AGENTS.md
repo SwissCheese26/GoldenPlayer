@@ -26,13 +26,35 @@ Verworfen: Tauri (jueneres Tooling, kein Vorteil hier), .NET WPF/WinUI
 (passt zwar zum StartupHub-Muster, aber Streaming-SDKs muessten eh per
 WebView2 eingebettet werden — kein Gewinn, Cross-Platform schwerer).
 
-## Bekanntes Risiko (fuer spaetere Planung pruefen)
+## Streaming-Dienste — Feasibility (recherchiert, Stand 2025/2026)
 
-- Spotify Web Playback SDK: braucht Premium-Account, laeuft als Embedded-Player.
-- Apple MusicKit JS: braucht Apple Developer Account + aktives Abo des Nutzers.
-- Deezer SDK: volle Wiedergabe fuer Drittanbieter-Apps stark eingeschraenkt,
-  oft nur 30-Sek-Previews ohne Deezer-Partnerstatus. Muss vor Implementierung
-  verifiziert werden, sonst Fallback/Teilumfang einplanen.
+Ziel: nur Streaming-Wiedergabe, Name/Interpret/Bild, Steuerung ueber unser
+eigenes Interface (kein Provider-Widget).
+
+- **Spotify — am realistischsten.** Web Playback SDK gibt volle Kontrolle
+  (play/pause/seek/skip/volume) ueber eigenes UI, kein Spotify-Widget noetig.
+  Braucht: Premium-Account des Nutzers, Spotify-Dev-App-Registrierung, ab
+  2025 strengere Freigabe fuer "Extended Access" (Web API jenseits Dev-Mode).
+  SDK-Lizenz verlangt eigentlich Spotify-Freigabe fuer kommerzielle Projekte.
+  Technischer Haken: volle Wiedergabe laeuft ueber Widevine/EME-DRM — Standard-
+  Electron hat das nicht, braucht Widevine-faehigen Electron-Build (z.B.
+  castlabs-Fork).
+- **Apple Music — machbar, mehr Reibung.** MusicKit JS erlaubt ebenfalls
+  volle eigene Playback-Kontrolle. Braucht: kostenpflichtigen Apple Developer
+  Account, selbst signierten JWT-Token, aktives Apple-Music-Abo des Nutzers.
+  Unklar/unverifiziert: ob Wiedergabe in Standard-Electron ueberhaupt startet
+  (DRM/EME) — ein bekanntes Forum-Beispiel brauchte dafuer ebenfalls einen
+  Widevine-Electron-Build. Vor Commitment per Spike pruefen.
+- **Deezer — blockiert fuer Volltrack.** Oeffentliche API/SDK liefert nur
+  30-Sek-Previews. Volle Wiedergabe nur mit direktem kommerziellen Deal mit
+  Deezer. Ohne solchen Deal: Deezer nur als Preview-Snippet einplanen.
+- **YouTube Music / Tidal — nicht empfohlen.** Nur inoffizielle, ToS-riskante
+  APIs, kein garantierter Volltrack-Zugang. Nicht fuer ernsthaftes Produkt.
+
+**Empfohlene Reihenfolge:** zuerst Electron-Widevine-Grundlage bauen (Blocker
+fuer Spotify + Apple Music gemeinsam) → Spotify Premium-Playback end-to-end
+validieren (klarster Weg) → Apple Music als Stretch-Goal nach DRM-Proof-of-
+Concept → Deezer von Anfang an nur als Preview-Snippet.
 
 ## Claude Code Skills — Auswahl & Grund
 
